@@ -1,7 +1,8 @@
 close all
 clear all
 clc
-individual =1;
+
+individual =3 ;
 
 fprintf('generating the training and testing sets.... \n')
 
@@ -15,12 +16,13 @@ X = image_matrix;
 tau = (numel(X))/norm(X,1);
 error = zeros(1,5);
 
-for i = 5
-    
+for i = 1:5
+ 
+ fprintf('Run for corrupted entries level %f : \n',(i-1)*0.1)
  [X_hat,W] = add_corruption(X,0.1*(i-1),1);
  [L,E]=rpca_admm(X,tau,'gross_errors');
  
- A = L+E;
+ A = L;
  [mean_face,U,~] = my_pca(A,3);
  
  figure; subplot(1,4,1)
@@ -49,9 +51,9 @@ for i = 5
      title('original image')
  end
  
- error(i) = norm((X - A),'fro');
+ error(i) = norm((X - L),'fro');
 end
 
 figure; 
-title('Plot of error vs percentage corruption')
+title('Plot of error vs percentage Missing Entries')
 plot(0:0.1:0.4,error)

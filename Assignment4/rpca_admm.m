@@ -1,7 +1,7 @@
 function [L,E]=rpca_admm(X,tau,method)
-%implements robust PCA solution by alternative directions of maximisation
-%algorithm
-thresh = 0.001;
+%implements robust PCA solution by alternating direction method of multipliers
+%algorithm where method can be 'outliers' or 'gross_errors'
+thresh = 0.1;
 max_iter =1000;
 
 if (strcmp(method,'gross_errors'))
@@ -36,7 +36,7 @@ elseif((strcmp(method,'outliers')))
         E = zeros(size(X));
         L= E;
         lambda_mat = E;
-        lambda =1;
+        lambda =0.001;
         tau_inv = 1/tau;
         lam_by_tau = lambda/tau;
         for i = 1: max_iter
@@ -51,8 +51,8 @@ elseif((strcmp(method,'outliers')))
             E_prev = E;
             E = (Z*S_dash)/z;
             lambda_mat = lambda_mat + tau*(X-L-E);
-            %if(norm((E_prev-E),'fro')<=thresh&& norm((L_prev-L),'fro')<=thresh)
-            if(norm(X -L- E,'fro')<=thresh) 
+            %if(norm((E_prev-E),'fro')<=0.01&& norm((L_prev-L),'fro')<=0.01)
+            if(norm(X -L- E,'fro')<=0.001) 
                 break;
             end
     

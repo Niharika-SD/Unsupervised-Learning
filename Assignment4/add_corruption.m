@@ -1,7 +1,8 @@
 function [X_hat,W] = add_corruption(X,p,cs)
 %corrupts the entries of X by a percentage specified by p and returns the
-%matrix with corrupted entries X_hat along with the locations of the
-%corruptions W
+%matrix with missing entries X_hat along with the locations of the
+%corruptions W if cs==0, if cs ==1, corrupted entries are generated
+%uniformly from [0,255]
 
 W_1 = rand(size(X));
 W = ones(size(X));

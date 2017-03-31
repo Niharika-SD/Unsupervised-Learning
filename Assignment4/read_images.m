@@ -14,7 +14,7 @@ if type == 0
         [m,n] =size(img);
         image_matrix =horzcat(image_matrix,img(:));
     end
-else
+elseif type == 1
     train_image_matrix =[];
     test_image_matrix =[];
     for j =1:3
@@ -38,7 +38,7 @@ else
     end
     end
     image_matrix.train = train_image_matrix;
-    image_matrix.train = test_image_matrix;   
+    image_matrix.test = test_image_matrix;   
+    
 end
-
 end
